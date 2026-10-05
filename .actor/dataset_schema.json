@@ -16,6 +16,7 @@
                     "nearestStoreUrl",
                     "latitude",
                     "longitude",
+                    "warning",
                     "error"
                 ]
             },
@@ -32,6 +33,7 @@
                     "nearestStoreUrl": { "label": "Map", "format": "link" },
                     "latitude": { "label": "Lat", "format": "number" },
                     "longitude": { "label": "Lng", "format": "number" },
+                    "warning": { "label": "Warning", "format": "text" },
                     "error": { "label": "Error", "format": "text" }
                 }
             }

@@ -15,13 +15,14 @@
             "type": "string",
             "description": "What to search for on Google Maps. A place counts only if its name contains this text (case-insensitive).",
             "editor": "textfield",
-            "default": "Starbucks"
+            "default": "Starbucks",
+            "minLength": 1
         },
         "bufferMeters": {
             "title": "Search buffer (meters)",
             "type": "integer",
-            "description": "How far around each property to look for stores. A property at the edge of the set can have its nearest store outside the properties' own area, so a small buffer gives wrong results silently. Keep it above the largest nearest-store distance you expect.",
-            "minimum": 500,
+            "description": "How far around each property to look for stores. A property at the edge of the set can have its nearest store outside the properties' own area. Rows whose nearest store is farther than the buffer get a \"warning\", because a closer store may not have been searched. Minimum 1000, so the 1 km store counts are always complete.",
+            "minimum": 1000,
             "maximum": 50000,
             "default": 3000,
             "unit": "meters"

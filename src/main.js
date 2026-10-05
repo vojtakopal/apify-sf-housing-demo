@@ -10,10 +10,27 @@ const PAGE_SIZE = 1000;
 async function* iterateDataset(datasetId) {
     const dataset = Actor.apifyClient.dataset(datasetId);
     for (let offset = 0; ; offset += PAGE_SIZE) {
-        const { items, total } = await dataset.listItems({ offset, limit: PAGE_SIZE, clean: true });
+        // No `clean`: it filters items after paging, so a short page wouldn't mean the last page.
+        const { items, total } = await dataset.listItems({ offset, limit: PAGE_SIZE });
         yield* items;
-        if (items.length < PAGE_SIZE || offset + items.length >= total) return;
+        if (!items.length || offset + PAGE_SIZE >= total) return;
     }
+}
+
+/**
+ * Start the scraper, or after a migration/restart reattach to the run started before,
+ * so one Actor run never pays for two scrapes.
+ */
+async function runScraper(scraperInput) {
+    let runId = await Actor.getValue('SCRAPER_RUN_ID');
+    if (runId) {
+        log.info(`Reattaching to scraper run ${runId} started before a restart.`);
+    } else {
+        log.info(`Starting ${SCRAPER_ACTOR_ID}...`);
+        runId = (await Actor.start(SCRAPER_ACTOR_ID, scraperInput)).id;
+        await Actor.setValue('SCRAPER_RUN_ID', runId);
+    }
+    return Actor.apifyClient.run(runId).waitForFinish();
 }
 
 const median = (values) => {
@@ -29,11 +46,13 @@ try {
     const input = (await Actor.getInput()) ?? {};
     const {
         spreadsheetUrl,
-        searchTerm = 'Starbucks',
         bufferMeters = 3000,
         maxStoresToScrape,
     } = input;
     if (!spreadsheetUrl) throw new Error('Input "spreadsheetUrl" is required.');
+    const searchTerm = (input.searchTerm ?? 'Starbucks').trim();
+    // An empty term would scrape every place in the area and count all of them as stores.
+    if (!searchTerm) throw new Error('Input "searchTerm" must not be empty.');
 
     // 1. Load properties
     const rows = await fetchCsvRows(spreadsheetUrl);
@@ -58,8 +77,7 @@ try {
 
         // 3. One Google Maps Scraper run
         const scraperInput = buildScraperInput({ searchTerm, geojson: area.geojson, maxStoresToScrape });
-        log.info(`Calling ${SCRAPER_ACTOR_ID}...`);
-        scraperRun = await Actor.call(SCRAPER_ACTOR_ID, scraperInput);
+        scraperRun = await runScraper(scraperInput);
         log.info(`Scraper run ${scraperRun.id} finished with status ${scraperRun.status}.`);
         if (scraperRun.status !== 'SUCCEEDED') {
             throw new Error(`Google Maps Scraper run ${scraperRun.id} ended with status ${scraperRun.status}.`);
@@ -78,7 +96,7 @@ try {
     }
 
     // 4. Compute index and output
-    const output = properties.map((p) => toOutputRow(p, p.error ? null : starbucksIndex(p, stores)));
+    const output = properties.map((p) => toOutputRow(p, p.error ? null : starbucksIndex(p, stores, { bufferMeters })));
     await Actor.pushData(output);
 
     const distances = output.map((o) => o.starbucksIndexMeters).filter((d) => d != null);
@@ -86,16 +104,21 @@ try {
         properties: properties.length,
         propertiesWithCoordinates: located.length,
         propertiesWithErrors: output.filter((o) => o.error).length,
+        propertiesWithWarnings: output.filter((o) => o.warning).length,
         storesFound: stores.length,
         searchTerm,
         bufferMeters,
         scraperRunId: scraperRun?.id ?? null,
         medianMeters: median(distances),
-        minMeters: distances.length ? Math.min(...distances) : null,
-        maxMeters: distances.length ? Math.max(...distances) : null,
+        // reduce, not Math.min(...arr): spreading a huge array overflows the call stack.
+        minMeters: distances.length ? distances.reduce((a, b) => Math.min(a, b)) : null,
+        maxMeters: distances.length ? distances.reduce((a, b) => Math.max(a, b)) : null,
         within500m: output.filter((o) => o.storesWithin500m > 0).length,
         within1km: output.filter((o) => o.storesWithin1km > 0).length,
     };
+    if (summary.propertiesWithWarnings) {
+        log.warning(`${summary.propertiesWithWarnings} properties have no store within ${bufferMeters} m; see "warning". Raise bufferMeters for reliable results.`);
+    }
     await Actor.setValue('SUMMARY', summary);
     log.info(`Done. ${JSON.stringify(summary)}`);
     await Actor.exit();

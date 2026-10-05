@@ -21,12 +21,15 @@ const lngDegPerMeter = (lat) => 1 / (M_PER_DEG * Math.cos(toRad(lat)));
  * Snap points to a metric grid and keep the first point per cell.
  * Within one cell, any two points differ by less than `cellMeters` on each axis,
  * so padding the kept point by `cellMeters` extra covers every dropped one.
+ * Columns use the row's latitude, not each point's: with a per-point cosine, a 1 km
+ * north-south shift moves the column by over 1 km, so one cell could span 2+ km east-west.
  */
 export function gridDedupe(points, cellMeters) {
     const seen = new Map();
     for (const p of points) {
         const row = Math.round((p.lat * M_PER_DEG) / cellMeters);
-        const col = Math.round((p.lng * M_PER_DEG * Math.cos(toRad(p.lat))) / cellMeters);
+        const rowLat = (row * cellMeters) / M_PER_DEG;
+        const col = Math.round((p.lng * M_PER_DEG * Math.cos(toRad(rowLat))) / cellMeters);
         const key = `${row}:${col}`;
         if (!seen.has(key)) seen.set(key, p);
     }
@@ -134,8 +137,12 @@ export function dedupeStores(stores) {
     });
 }
 
-/** Distance to the nearest store plus store counts within 500 m and 1 km. */
-export function starbucksIndex(point, stores) {
+/**
+ * Distance to the nearest store plus store counts within 500 m and 1 km.
+ * Only stores within `bufferMeters` are guaranteed to have been scraped, so a nearest
+ * store farther than that may not be the true nearest one: flag it in `warning`.
+ */
+export function starbucksIndex(point, stores, { bufferMeters = Infinity } = {}) {
     let nearest = null;
     let nearestMeters = Infinity;
     let within500m = 0;
@@ -149,6 +156,12 @@ export function starbucksIndex(point, stores) {
         if (d <= 500) within500m++;
         if (d <= 1000) within1km++;
     }
+    let warning = null;
+    if (!nearest) {
+        warning = 'No store found in the search area.';
+    } else if (nearestMeters > bufferMeters) {
+        warning = `Nearest store is beyond the ${bufferMeters} m search buffer; a closer one outside the search area may exist.`;
+    }
     return {
         starbucksIndexMeters: nearest ? Math.round(nearestMeters) : null,
         nearestStoreName: nearest?.title ?? null,
@@ -156,5 +169,6 @@ export function starbucksIndex(point, stores) {
         nearestStoreUrl: nearest?.url ?? null,
         storesWithin500m: within500m,
         storesWithin1km: within1km,
+        warning,
     };
 }

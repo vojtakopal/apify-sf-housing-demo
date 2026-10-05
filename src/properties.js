@@ -1,13 +1,20 @@
 import { parse } from 'csv-parse/sync';
 
 const SHEET_ID_RE = /docs\.google\.com\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/;
+// "Publish to web" links: /d/e/<published id>/pubhtml
+const PUBLISHED_ID_RE = /docs\.google\.com\/spreadsheets\/d\/e\/([a-zA-Z0-9_-]+)/;
 
-/** Turn a Google Sheets share/edit URL into its CSV export URL. Other URLs pass through. */
+export const isGoogleSheetUrl = (url) => SHEET_ID_RE.test(url);
+
+/** Turn a Google Sheets share/edit/publish URL into its CSV URL. Other URLs pass through. */
 export function toCsvUrl(sheetUrl) {
+    const gid = sheetUrl.match(/[#?&]gid=(\d+)/)?.[1];
+    const gidParam = gid ? `&gid=${gid}` : '';
+    const published = sheetUrl.match(PUBLISHED_ID_RE);
+    if (published) return `https://docs.google.com/spreadsheets/d/e/${published[1]}/pub?output=csv${gidParam}`;
     const match = sheetUrl.match(SHEET_ID_RE);
     if (!match) return sheetUrl;
-    const gid = sheetUrl.match(/[#?&]gid=(\d+)/)?.[1];
-    return `https://docs.google.com/spreadsheets/d/${match[1]}/export?format=csv${gid ? `&gid=${gid}` : ''}`;
+    return `https://docs.google.com/spreadsheets/d/${match[1]}/export?format=csv${gidParam}`;
 }
 
 const PRIVATE_SHEET_HINT = 'Make sure the sheet is shared as "Anyone with the link can view".';
@@ -27,7 +34,8 @@ export async function fetchCsvRows(sheetUrl) {
     }
     const contentType = res.headers.get('content-type') ?? '';
     // A private sheet answers 401/403/404, or redirects to a Google sign-in page (HTML).
-    if ([401, 403, 404].includes(res.status) || /accounts\.google\.com/.test(res.url) || contentType.includes('text/html')) {
+    if (isGoogleSheetUrl(sheetUrl)
+        && ([401, 403, 404].includes(res.status) || /accounts\.google\.com/.test(res.url) || contentType.includes('text/html'))) {
         throw new Error(`The spreadsheet isn't publicly readable (HTTP ${res.status}). ${PRIVATE_SHEET_HINT}`);
     }
     if (!res.ok) throw new Error(`Downloading ${csvUrl} failed with HTTP ${res.status}.`);
@@ -95,6 +103,7 @@ export function toOutputRow(property, index) {
         nearestStoreUrl: index?.nearestStoreUrl ?? null,
         storesWithin500m: index?.storesWithin500m ?? null,
         storesWithin1km: index?.storesWithin1km ?? null,
+        warning: index?.warning ?? null,
         error: property.error,
     };
     for (const [key, value] of Object.entries(property.row)) {

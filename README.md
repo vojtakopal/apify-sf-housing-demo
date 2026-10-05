@@ -26,6 +26,7 @@ One flat dataset row per sheet row, so the dataset can go straight back into a s
 | `starbucksIndexMeters` | Straight-line distance to the nearest open store, in meters |
 | `nearestStoreName`, `nearestStoreAddress`, `nearestStoreUrl` | The nearest store |
 | `storesWithin500m`, `storesWithin1km` | Store counts around the property |
+| `warning` | Set when the nearest store is farther than `bufferMeters`, so a closer store outside the search area may have been missed |
 | `error` | Set when the row couldn't be processed |
 | *all original sheet columns* | Kept as they were |
 
@@ -38,14 +39,14 @@ The key-value store also holds:
 ## How it works
 
 1. Load the sheet through its CSV export URL.
-2. Build one search area. Properties are snapped to a 1 km grid and the first one in each cell is kept. Each kept property gets a box padded by `bufferMeters` + 1 km, which covers any property dropped from its cell. Overlapping boxes merge into their bounding box. One city ends up as a `Polygon`, and far-apart cities as a `MultiPolygon`.
-3. Run Google Maps Scraper once, with that area as `customGeolocation`, `searchMatching: "only_includes"`, `skipClosedPlaces: true`, and no detail pages, reviews or images.
+2. Build one search area. Properties are snapped to a 1 km grid and the first one in each cell is kept. Each kept property gets a box padded by `bufferMeters` + 1 km, which covers any property dropped from its cell. Grid columns use each row's latitude, so a cell is never wider than 1 km east-west. Overlapping boxes merge into their bounding box. One city ends up as a `Polygon`, and far-apart cities as a `MultiPolygon`.
+3. Run Google Maps Scraper once, with that area as `customGeolocation`, `searchMatching: "only_includes"`, `skipClosedPlaces: true`, and no detail pages, reviews or images. If the platform migrates the Actor mid-run, it reattaches to the same scraper run instead of starting and paying for a new one.
 4. Filter again on our side. The name must contain the search term, the place must not be permanently or temporarily closed, and it must have coordinates. Then dedupe by `placeId`.
 5. For each property, compute the haversine distance to every store.
 
 ### Why the buffer
 
-A property at the edge of the set can have its true nearest store outside the area the properties cover. Without the buffer, the Actor would report a farther store as the nearest one, and nothing would flag it as wrong. Keep `bufferMeters` above the largest nearest-store distance you expect. In San Francisco the largest is about 2 km.
+A property at the edge of the set can have its true nearest store outside the area the properties cover. Without the buffer, the Actor would report a farther store as the nearest one. Any result farther than `bufferMeters` gets a `warning`, because only stores within the buffer are guaranteed to have been searched. In San Francisco the largest distance is about 2 km, well inside the default 3000 m.
 
 ## Known limits
 

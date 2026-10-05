@@ -28,6 +28,9 @@ test('sheet URL becomes a CSV export URL, keeping gid', () => {
     assert.equal(toCsvUrl(`https://docs.google.com/spreadsheets/d/${id}/edit#gid=42`),
         `https://docs.google.com/spreadsheets/d/${id}/export?format=csv&gid=42`);
     assert.equal(toCsvUrl('https://example.com/data.csv'), 'https://example.com/data.csv');
+    // "Publish to web" link: /d/e/<id>/ must not be read as sheet ID "e".
+    assert.equal(toCsvUrl('https://docs.google.com/spreadsheets/d/e/2PACX-1vAbc_123/pubhtml?gid=7&single=true'),
+        'https://docs.google.com/spreadsheets/d/e/2PACX-1vAbc_123/pub?output=csv&gid=7');
 });
 
 test('columns are auto-detected on the Zillow export', () => {
@@ -75,6 +78,29 @@ test('far-apart cities become a MultiPolygon, and the buffer covers edge propert
     assert.ok(box.north - sf.lat >= 3000 / 111320);
 });
 
+test('every property keeps the full buffer, including ones dropped by grid dedupe', () => {
+    // Regression: these two are 2.4 km apart and used to share a cell, leaving the
+    // dropped one only 1.8 km of buffer to the west.
+    const kept = { lat: 37.77864, lng: -122.45820 };
+    const dropped = { lat: 37.78714, lng: -122.48283 };
+    let worst = Infinity;
+    const check = (points) => {
+        const { boxes } = buildSearchArea(points, { bufferMeters: 3000 });
+        for (const p of points) {
+            const m = 111320 * Math.cos((p.lat * Math.PI) / 180);
+            const margin = Math.max(...boxes.map((b) => Math.min(
+                (p.lng - b.west) * m, (b.east - p.lng) * m, (p.lat - b.south) * 111320, (b.north - p.lat) * 111320)));
+            worst = Math.min(worst, margin);
+        }
+    };
+    check([kept, dropped]);
+    for (let i = 0; i < 2000; i++) {
+        const c = { lat: 37.7 + (i % 50) * 0.002, lng: -122.5 + Math.floor(i / 50) * 0.0025 };
+        check([c, { lat: c.lat + (((i * 7) % 13) - 6) * 0.0015, lng: c.lng + (((i * 11) % 17) - 8) * 0.0018 }]);
+    }
+    assert.ok(worst >= 3000, `worst margin ${worst} m`);
+});
+
 test('store filter: name must match, open only, coordinates required, dedupe by placeId', () => {
     const base = { title: 'Starbucks', placeId: 'a', location: { lat: 37.7, lng: -122.4 } };
     assert.ok(toStore(base, 'starbucks'));
@@ -102,7 +128,14 @@ test('index on the verified SF stores matches expected-sf-results.csv', () => {
     const leavenworth = toOutputRow(properties.find((p) => p.id === '15063535'), starbucksIndex(properties.find((p) => p.id === '15063535'), stores));
     assert.equal(leavenworth.starbucksIndexMeters, 268);
     assert.equal(leavenworth.zpid, '15063535', 'original columns are kept');
-    assert.deepEqual(starbucksIndex({ lat: 0, lng: 0 }, []).starbucksIndexMeters, null);
+    assert.equal(leavenworth.warning, null);
+    const none = starbucksIndex({ lat: 0, lng: 0 }, []);
+    assert.equal(none.starbucksIndexMeters, null);
+    assert.match(none.warning, /No store/);
+    // Nearest store beyond the buffer may not be the true nearest one: flagged.
+    const far = starbucksIndex({ lat: 37.70, lng: -122.45 }, stores, { bufferMeters: 1000 });
+    assert.ok(far.starbucksIndexMeters > 1000);
+    assert.match(far.warning, /beyond the 1000 m search buffer/);
 });
 
 test('scraper input: max places omitted unless capped', () => {
