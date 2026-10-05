@@ -1,0 +1,63 @@
+{
+    "title": "Starbucks Index input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "spreadsheetUrl": {
+            "title": "Google Sheet URL",
+            "type": "string",
+            "description": "Sheet with one property per row. It must be shared as \"Anyone with the link can view\". A direct CSV URL works too. Coordinate, ID and address columns are detected automatically.",
+            "editor": "textfield",
+            "prefill": "https://docs.google.com/spreadsheets/d/1MpK1pVsTo7HF19kNaNLFDpM1dhhMkdLncYvYSZkRR7o/edit?usp=sharing"
+        },
+        "searchTerm": {
+            "title": "Search term",
+            "type": "string",
+            "description": "What to search for on Google Maps. A place counts only if its name contains this text (case-insensitive).",
+            "editor": "textfield",
+            "default": "Starbucks"
+        },
+        "bufferMeters": {
+            "title": "Search buffer (meters)",
+            "type": "integer",
+            "description": "How far around each property to look for stores. A property at the edge of the set can have its nearest store outside the properties' own area, so a small buffer gives wrong results silently. Keep it above the largest nearest-store distance you expect.",
+            "minimum": 500,
+            "maximum": 50000,
+            "default": 3000,
+            "unit": "meters"
+        },
+        "maxStoresToScrape": {
+            "title": "Max stores to scrape",
+            "type": "integer",
+            "description": "Cost cap for Google Maps Scraper. Leave empty for no limit (recommended): a capped scrape misses stores, which makes nearest-store results wrong.",
+            "minimum": 1
+        },
+        "latitudeColumn": {
+            "title": "Latitude column",
+            "type": "string",
+            "description": "Override auto-detection, e.g. coordinates.latitude.",
+            "editor": "textfield",
+            "sectionCaption": "Column overrides",
+            "sectionDescription": "Only needed if auto-detection picks the wrong columns."
+        },
+        "longitudeColumn": {
+            "title": "Longitude column",
+            "type": "string",
+            "description": "Override auto-detection, e.g. coordinates.longitude.",
+            "editor": "textfield"
+        },
+        "idColumn": {
+            "title": "ID column",
+            "type": "string",
+            "description": "Override auto-detection, e.g. zpid.",
+            "editor": "textfield"
+        },
+        "addressColumn": {
+            "title": "Address column",
+            "type": "string",
+            "description": "Override auto-detection, e.g. listingAddress.full.",
+            "editor": "textfield"
+        }
+    },
+    "required": ["spreadsheetUrl"]
+}
