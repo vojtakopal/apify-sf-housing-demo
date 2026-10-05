@@ -1,0 +1,482 @@
+[
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "3595 California St, San Francisco, CA 94118",
+  "location": {
+   "lat": 37.78611,
+   "lng": -122.45323
+  },
+  "placeId": "ChIJgfaHTzGHhYARpAaPEsn2pV8",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJgfaHTzGHhYARpAaPEsn2pV8"
+ },
+ {
+  "title": "Starbucks",
+  "address": "150 Van Ness Ave, San Francisco, CA 94102",
+  "location": {
+   "lat": 37.77723,
+   "lng": -122.41932
+  },
+  "placeId": "ChIJm4gLsvOBhYARDnNvQu31r4w",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks&query_place_id=ChIJm4gLsvOBhYARDnNvQu31r4w"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "170 O'Farrell St, San Francisco, CA 94102",
+  "location": {
+   "lat": 37.78736,
+   "lng": -122.40732
+  },
+  "placeId": "ChIJ96HYr4-AhYARIpeOo-wEFEE",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJ96HYr4-AhYARIpeOo-wEFEE"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "2727 Mariposa St, San Francisco, CA 94110",
+  "location": {
+   "lat": 37.76291,
+   "lng": -122.41042
+  },
+  "placeId": "ChIJ47mI-DB-j4ARMbqXOPT13vk",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJ47mI-DB-j4ARMbqXOPT13vk"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "390 Stockton St, San Francisco, CA 94108",
+  "location": {
+   "lat": 37.78935,
+   "lng": -122.40682
+  },
+  "placeId": "ChIJuUGLS4mAhYAR1g0mGcIy8fk",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJuUGLS4mAhYAR1g0mGcIy8fk"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "789 Mission St, San Francisco, CA 94103",
+  "location": {
+   "lat": 37.78446,
+   "lng": -122.40384
+  },
+  "placeId": "ChIJQQwisoeAhYARttscHlSNWzA",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJQQwisoeAhYARttscHlSNWzA"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "201 Powell St, San Francisco, CA 94102",
+  "location": {
+   "lat": 37.78656,
+   "lng": -122.4082
+  },
+  "placeId": "ChIJ04Axl-OAhYARWD7lhhEpVZ0",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJ04Axl-OAhYARWD7lhhEpVZ0"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "5455 Geary Blvd, San Francisco, CA 94121",
+  "location": {
+   "lat": 37.78017,
+   "lng": -122.47814
+  },
+  "placeId": "ChIJbypEqxGHhYAR2dF0S6Mk0Kg",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJbypEqxGHhYAR2dF0S6Mk0Kg"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "1800 Irving St, San Francisco, CA 94122",
+  "location": {
+   "lat": 37.76371,
+   "lng": -122.47746
+  },
+  "placeId": "ChIJO49Ph2WHhYARDyZz4_-U1Ao",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJO49Ph2WHhYARDyZz4_-U1Ao"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "1100 Van Ness Ave, San Francisco, CA 94109",
+  "location": {
+   "lat": 37.78589,
+   "lng": -122.4211
+  },
+  "placeId": "ChIJlU058H-BhYARElxF1iwSqKY",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJlU058H-BhYARElxF1iwSqKY"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "565 Clay St, San Francisco, CA 94111",
+  "location": {
+   "lat": 37.7946,
+   "lng": -122.40269
+  },
+  "placeId": "ChIJdS_ykoqAhYAR7D9v8GCMGyI",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJdS_ykoqAhYAR7D9v8GCMGyI"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "3995 24th St, San Francisco, CA 94114",
+  "location": {
+   "lat": 37.751341,
+   "lng": -122.431709
+  },
+  "placeId": "ChIJj3orDxN-j4ARlytjvdmSwKU",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJj3orDxN-j4ARlytjvdmSwKU"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "580 California St, San Francisco, CA 94104",
+  "location": {
+   "lat": 37.79284,
+   "lng": -122.40429
+  },
+  "placeId": "ChIJSdu8souAhYARm2j_V4uodVM",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJSdu8souAhYARm2j_V4uodVM"
+ },
+ {
+  "title": "Starbucks",
+  "address": "299 Fremont St, San Francisco, CA 94105",
+  "location": {
+   "lat": 37.78823,
+   "lng": -122.39362
+  },
+  "placeId": "ChIJG5Z89LKBhYARXvxHSDaER_E",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks&query_place_id=ChIJG5Z89LKBhYARXvxHSDaER_E"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "675 Portola Dr, San Francisco, CA 94127",
+  "location": {
+   "lat": 37.7445,
+   "lng": -122.45271
+  },
+  "placeId": "ChIJJQgiMud9j4ARhsEC8iDJLcw",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJJQgiMud9j4ARhsEC8iDJLcw"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "1750 Divisadero St, San Francisco, CA 94115",
+  "location": {
+   "lat": 37.78598,
+   "lng": -122.43982
+  },
+  "placeId": "ChIJQw4e68mAhYARG2SikEnCqL0",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJQw4e68mAhYARG2SikEnCqL0"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "5290 Diamond Heights Blvd, San Francisco, CA 94131",
+  "location": {
+   "lat": 37.74374,
+   "lng": -122.43876
+  },
+  "placeId": "ChIJLTsgt3N-j4ARrTTYQ6WspTE",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJLTsgt3N-j4ARrTTYQ6WspTE"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "2350 Noriega St, San Francisco, CA 94122",
+  "location": {
+   "lat": 37.75407,
+   "lng": -122.48879
+  },
+  "placeId": "ChIJkd6w5n6HhYARSMFG6z99F1o",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJkd6w5n6HhYARSMFG6z99F1o"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "Fox Plaza, 1390 Market St, San Francisco, CA 94102",
+  "location": {
+   "lat": 37.777059,
+   "lng": -122.417348
+  },
+  "placeId": "ChIJ_c92FJyAhYAROOvKZ17WNTQ",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJ_c92FJyAhYAROOvKZ17WNTQ"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "2300 16th St, San Francisco, CA 94103",
+  "location": {
+   "lat": 37.76658,
+   "lng": -122.40941
+  },
+  "placeId": "ChIJaTfaNi5-j4ARWzK3s6C4nxI",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJaTfaNi5-j4ARWzK3s6C4nxI"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "2020 Market St, San Francisco, CA 94114",
+  "location": {
+   "lat": 37.7690405,
+   "lng": -122.4282938
+  },
+  "placeId": "ChIJ831FJR5-j4ARGedmEcsir90",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJ831FJR5-j4ARGedmEcsir90"
+ },
+ {
+  "title": "Starbucks",
+  "address": "7 Drumm St, San Francisco, CA 94111",
+  "location": {
+   "lat": 37.79377,
+   "lng": -122.39662
+  },
+  "placeId": "ChIJjbM7m-CBhYARG_Ru8QMv0do",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks&query_place_id=ChIJjbM7m-CBhYARG_Ru8QMv0do"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "100 1st St, San Francisco, CA 94105",
+  "location": {
+   "lat": 37.78961,
+   "lng": -122.39755
+  },
+  "placeId": "ChIJ-XJGJGeAhYAR__iKMkNXmuo",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJ-XJGJGeAhYAR__iKMkNXmuo"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "1375 3rd St, San Francisco, CA 94158",
+  "location": {
+   "lat": 37.77123,
+   "lng": -122.38931
+  },
+  "placeId": "ChIJj08HUMV_j4ARrVaWMrjQ6iE",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJj08HUMV_j4ARrVaWMrjQ6iE"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "Bayview Plaza, 3801 3rd St, San Francisco, CA 94124",
+  "location": {
+   "lat": 37.74122,
+   "lng": -122.38775
+  },
+  "placeId": "ChIJZSP3VAh_j4ARXErDV9SiILM",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJZSP3VAh_j4ARXErDV9SiILM"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "1700 Owens St, San Francisco, CA 94158",
+  "location": {
+   "lat": 37.76706,
+   "lng": -122.39366
+  },
+  "placeId": "ChIJeWmH6M5_j4ARLhqh6JwOle8",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJeWmH6M5_j4ARLhqh6JwOle8"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "2435 California St, San Francisco, CA 94115",
+  "location": {
+   "lat": 37.7885472,
+   "lng": -122.434559
+  },
+  "placeId": "ChIJ39WR0ceAhYARE0g6sTaDN1Q",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJ39WR0ceAhYARE0g6sTaDN1Q"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "298 King St, San Francisco, CA 94107",
+  "location": {
+   "lat": 37.7766391,
+   "lng": -122.3940918
+  },
+  "placeId": "ChIJvWdbXOV_j4ARorfapSolbHY",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJvWdbXOV_j4ARorfapSolbHY"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "100 W Portal Ave, San Francisco, CA 94127",
+  "location": {
+   "lat": 37.73968,
+   "lng": -122.46732
+  },
+  "placeId": "ChIJOQeX7ep9j4ARHTV2Q5Px_fo",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJOQeX7ep9j4ARHTV2Q5Px_fo"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "Westlake Shopping Center, 332 Westlake Center, Daly City, CA 94015",
+  "location": {
+   "lat": 37.70076,
+   "lng": -122.48321
+  },
+  "placeId": "ChIJ6QEpR1B9j4AR9lFwEh66nPg",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJ6QEpR1B9j4AR9lFwEh66nPg"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "6873 Mission St, Daly City, CA 94014",
+  "location": {
+   "lat": 37.6973358,
+   "lng": -122.4629514
+  },
+  "placeId": "ChIJp9TXvBZ8j4ARlITzP-6sv6Y",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJp9TXvBZ8j4ARlITzP-6sv6Y"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "233 Winston Dr, San Francisco, CA 94132",
+  "location": {
+   "lat": 37.72651,
+   "lng": -122.47689
+  },
+  "placeId": "ChIJU0YpQbp9j4ARWPb1n1LiOUo",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJU0YpQbp9j4ARWPb1n1LiOUo"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "601 Westlake Center, Daly City, CA 94015",
+  "location": {
+   "lat": 37.69938,
+   "lng": -122.48141
+  },
+  "placeId": "ChIJw-YUe1t8j4ARCk4Xk7cRPlY",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJw-YUe1t8j4ARCk4Xk7cRPlY"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "Letterman Digital Arts Center, 1 Letterman Dr, San Francisco, CA 94129",
+  "location": {
+   "lat": 37.79925,
+   "lng": -122.44935
+  },
+  "placeId": "ChIJXaDe9yqHhYARh78sF8k1uSA",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJXaDe9yqHhYARh78sF8k1uSA"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "499 Bay St, San Francisco, CA 94133",
+  "location": {
+   "lat": 37.80534,
+   "lng": -122.41511
+  },
+  "placeId": "ChIJSYzr8eSAhYARFzlnATi_Fn4",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJSYzr8eSAhYARFzlnATi_Fn4"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "1899 Union St, San Francisco, CA 94123",
+  "location": {
+   "lat": 37.797644,
+   "lng": -122.430395
+  },
+  "placeId": "ChIJS0zlUduAhYARCMKH0koWRQ0",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJS0zlUduAhYARCMKH0koWRQ0"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "3735 Buchanan St, San Francisco, CA 94123",
+  "location": {
+   "lat": 37.80449,
+   "lng": -122.43375
+  },
+  "placeId": "ChIJW0ylQdiAhYARrigLol4B6l4",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJW0ylQdiAhYARrigLol4B6l4"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "2165 Polk St, San Francisco, CA 94109",
+  "location": {
+   "lat": 37.79676,
+   "lng": -122.42209
+  },
+  "placeId": "ChIJJfb6uumAhYARXM8xsJwxYf8",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJJfb6uumAhYARXM8xsJwxYf8"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "2132 Chestnut St, San Francisco, CA 94123",
+  "location": {
+   "lat": 37.8007101,
+   "lng": -122.438556
+  },
+  "placeId": "ChIJ1f5v3taAhYARQCNMKc-rUx8",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJ1f5v3taAhYARQCNMKc-rUx8"
+ },
+ {
+  "title": "Starbucks Coffee Company",
+  "address": "2675 Geary Blvd, San Francisco, CA 94118",
+  "location": {
+   "lat": 37.78207,
+   "lng": -122.44708
+  },
+  "placeId": "ChIJz15erkqHhYARmOixO6y3mGE",
+  "permanentlyClosed": false,
+  "temporarilyClosed": false,
+  "url": "https://www.google.com/maps/search/?api=1&query=Starbucks%20Coffee%20Company&query_place_id=ChIJz15erkqHhYARmOixO6y3mGE"
+ }
+]

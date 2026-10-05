@@ -1,0 +1,15 @@
+{
+    "actorSpecification": 1,
+    "name": "starbucks-index",
+    "title": "Starbucks Index",
+    "description": "For every property in a Google Sheet, the straight-line distance to the nearest open Starbucks and the number of stores within 500 m and 1 km. Uses one Google Maps Scraper run for the whole sheet.",
+    "version": "0.1",
+    "buildTag": "latest",
+    "minMemoryMbytes": 256,
+    "maxMemoryMbytes": 1024,
+    "input": "./input_schema.json",
+    "storages": {
+        "dataset": "./dataset_schema.json"
+    },
+    "dockerfile": "./Dockerfile"
+}

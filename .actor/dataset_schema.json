@@ -1,0 +1,42 @@
+{
+    "actorSpecification": 1,
+    "fields": {},
+    "views": {
+        "overview": {
+            "title": "Starbucks index",
+            "transformation": {
+                "fields": [
+                    "propertyId",
+                    "address",
+                    "starbucksIndexMeters",
+                    "storesWithin500m",
+                    "storesWithin1km",
+                    "nearestStoreName",
+                    "nearestStoreAddress",
+                    "nearestStoreUrl",
+                    "latitude",
+                    "longitude",
+                    "warning",
+                    "error"
+                ]
+            },
+            "display": {
+                "component": "table",
+                "properties": {
+                    "propertyId": { "label": "ID", "format": "text" },
+                    "address": { "label": "Address", "format": "text" },
+                    "starbucksIndexMeters": { "label": "Nearest Starbucks (m)", "format": "number" },
+                    "storesWithin500m": { "label": "Stores ≤ 500 m", "format": "number" },
+                    "storesWithin1km": { "label": "Stores ≤ 1 km", "format": "number" },
+                    "nearestStoreName": { "label": "Nearest store", "format": "text" },
+                    "nearestStoreAddress": { "label": "Nearest store address", "format": "text" },
+                    "nearestStoreUrl": { "label": "Map", "format": "link" },
+                    "latitude": { "label": "Lat", "format": "number" },
+                    "longitude": { "label": "Lng", "format": "number" },
+                    "warning": { "label": "Warning", "format": "text" },
+                    "error": { "label": "Error", "format": "text" }
+                }
+            }
+        }
+    }
+}

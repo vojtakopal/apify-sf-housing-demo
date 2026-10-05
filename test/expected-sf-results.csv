@@ -1,0 +1,31 @@
+zpid,address,latitude,longitude,starbucksIndexMeters,nearestStoreName,nearestStoreAddress,storesWithin500m,storesWithin1km
+15136896,"136 Los Palmos Dr, San Francisco, CA 94127",37.73577,-122.44773,1065,Starbucks Coffee Company,"675 Portola Dr, San Francisco, CA 94127",0,0
+15114995,"1095 Pacheco St, San Francisco, CA 94116",37.751053,-122.471725,1323,Starbucks Coffee Company,"100 W Portal Ave, San Francisco, CA 94127",0,0
+15063535,"2508 Leavenworth St, San Francisco, CA 94133",37.80457,-122.418,268,Starbucks Coffee Company,"499 Bay St, San Francisco, CA 94133",1,2
+69819022,"146 7th Ave, San Francisco, CA 94118",37.785744,-122.46553,1082,Starbucks Coffee Company,"3595 California St, San Francisco, CA 94118",0,0
+15094861,"551 9th Ave, San Francisco, CA 94118",37.77798,-122.46754,963,Starbucks Coffee Company,"5455 Geary Blvd, San Francisco, CA 94121",0,1
+15150356,"875 Vermont St APT 300, San Francisco, CA 94107",37.758587,-122.40366,764,Starbucks Coffee Company,"2727 Mariposa St, San Francisco, CA 94110",0,1
+2077719668,"924 Stanyan St, San Francisco, CA 94117",37.766018,-122.45276,1853,Starbucks Coffee Company,"2675 Geary Blvd, San Francisco, CA 94118",0,0
+15182943,"1504 Sanchez St, San Francisco, CA 94131",37.744965,-122.429276,741,Starbucks Coffee Company,"3995 24th St, San Francisco, CA 94114",0,2
+83152704,"3471 19th St, San Francisco, CA 94110",37.760017,-122.42089,975,Starbucks Coffee Company,"2727 Mariposa St, San Francisco, CA 94110",0,1
+15080253,"3019 Broderick St, San Francisco, CA 94123",37.798203,-122.444466,445,Starbucks Coffee Company,"Letterman Digital Arts Center, 1 Letterman Dr, San Francisco, CA 94129",1,2
+15115614,"2083 17th Ave, San Francisco, CA 94116",37.749126,-122.47428,1216,Starbucks Coffee Company,"100 W Portal Ave, San Francisco, CA 94127",0,0
+15183257,"471 Valley St, San Francisco, CA 94131",37.74398,-122.43269,534,Starbucks Coffee Company,"5290 Diamond Heights Blvd, San Francisco, CA 94131",0,2
+15182859,"2104 Castro St, San Francisco, CA 94131",37.744633,-122.43372,454,Starbucks Coffee Company,"5290 Diamond Heights Blvd, San Francisco, CA 94131",1,2
+15126514,"12 Crestlake Dr, San Francisco, CA 94132",37.735023,-122.48004,986,Starbucks Coffee Company,"233 Winston Dr, San Francisco, CA 94132",0,1
+15098339,"607 6th Ave, San Francisco, CA 94118",37.77702,-122.46424,1271,Starbucks Coffee Company,"5455 Geary Blvd, San Francisco, CA 94121",0,0
+15121630,"2442 45th Ave, San Francisco, CA 94116",37.741013,-122.50326,1930,Starbucks Coffee Company,"2350 Noriega St, San Francisco, CA 94122",0,0
+15121411,"2335 47th Ave, San Francisco, CA 94116",37.742897,-122.506035,1960,Starbucks Coffee Company,"2350 Noriega St, San Francisco, CA 94122",0,0
+114314550,"737 Union St, San Francisco, CA 94133",37.799988,-122.41143,677,Starbucks Coffee Company,"499 Bay St, San Francisco, CA 94133",0,2
+82785666,"265 Carl St, San Francisco, CA 94117",37.76512,-122.453804,1975,Starbucks Coffee Company,"2675 Geary Blvd, San Francisco, CA 94118",0,0
+15135054,"45 Rio Ct, San Francisco, CA 94127",37.7383,-122.44587,870,Starbucks Coffee Company,"5290 Diamond Heights Blvd, San Francisco, CA 94131",0,2
+15087145,"57 Downey St, San Francisco, CA 94117",37.767914,-122.44756,1575,Starbucks Coffee Company,"2675 Geary Blvd, San Francisco, CA 94118",0,0
+15165021,"475 Justin Dr, San Francisco, CA 94112",37.731983,-122.42508,1777,Starbucks Coffee Company,"5290 Diamond Heights Blvd, San Francisco, CA 94131",0,0
+15068216,"850 Powell St APT 602, San Francisco, CA 94108",37.792873,-122.408966,411,Starbucks Coffee Company,"580 California St, San Francisco, CA 94104",2,5
+15135734,"15 Cresta Vista Dr, San Francisco, CA 94127",37.73555,-122.4591,856,Starbucks Coffee Company,"100 W Portal Ave, San Francisco, CA 94127",0,1
+15074804,"2040 Laguna St APT 201, San Francisco, CA 94115",37.790127,-122.42882,534,Starbucks Coffee Company,"2435 California St, San Francisco, CA 94115",0,4
+2064451900,"405 Hoffman Ave, San Francisco, CA 94114",37.750557,-122.44039,768,Starbucks Coffee Company,"3995 24th St, San Francisco, CA 94114",0,2
+465580569,"792 Bay St, San Francisco, CA 94109",37.80493,-122.420074,438,Starbucks Coffee Company,"499 Bay St, San Francisco, CA 94133",1,2
+15073589,"1824 Jackson St APT D, San Francisco, CA 94109",37.793938,-122.42522,417,Starbucks Coffee Company,"2165 Polk St, San Francisco, CA 94109",1,3
+465709460,"560 27th Ave, San Francisco, CA 94121",37.77879,-122.486595,759,Starbucks Coffee Company,"5455 Geary Blvd, San Francisco, CA 94121",0,1
+63196710,"1901 California St APT 4, San Francisco, CA 94109",37.789604,-122.4258,584,Starbucks Coffee Company,"1100 Van Ness Ave, San Francisco, CA 94109",0,4
