@@ -1,11 +1,14 @@
 import { Actor, log } from 'apify';
 
+import { buildSnapshot, diffSnapshots, snapshotKey } from './changes.js';
 import { buildSearchArea, dedupeStores, starbucksIndex, toStore } from './geo.js';
-import { detectColumns, fetchCsvRows, toOutputRow, toProperties } from './properties.js';
+import { detectColumns, fetchCsvRows, toCsvUrl, toOutputRow, toProperties } from './properties.js';
 import { SCRAPER_ACTOR_ID, buildScraperInput } from './scraper.js';
 
 const LARGE_AREA_KM2 = 20000;
 const PAGE_SIZE = 1000;
+// Named store: unnamed storages expire after the plan's retention period, often before next week's run.
+const STATE_STORE_NAME = 'starbucks-index-live-state';
 
 async function* iterateDataset(datasetId) {
     const dataset = Actor.apifyClient.dataset(datasetId);
@@ -121,6 +124,21 @@ try {
     }
     await Actor.setValue('SUMMARY', summary);
     log.info(`Done. ${JSON.stringify(summary)}`);
+
+    // 5. Compare with the previous run of the same sheet
+    const stateStore = await Actor.openKeyValueStore(STATE_STORE_NAME);
+    const key = snapshotKey({ csvUrl: toCsvUrl(spreadsheetUrl), searchTerm, bufferMeters });
+    const previous = await stateStore.getValue(key);
+    const snapshot = buildSnapshot({ output, stores, summary, finishedAt: new Date().toISOString() });
+    const changes = diffSnapshots(previous, snapshot);
+    await Actor.setValue('CHANGES', changes);
+    log.info(`Changes: ${changes.message}`);
+    // An empty scrape is almost surely a glitch, not every store closing: keep the old baseline.
+    if (located.length && !stores.length) {
+        log.warning('No stores found, so the baseline for the next comparison is left unchanged.');
+    } else {
+        await stateStore.setValue(key, snapshot);
+    }
     await Actor.exit();
 } catch (err) {
     log.exception(err, 'Starbucks index failed');

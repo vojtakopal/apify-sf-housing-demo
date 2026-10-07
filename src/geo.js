@@ -17,25 +17,6 @@ export function haversineMeters(a, b) {
 
 const lngDegPerMeter = (lat) => 1 / (M_PER_DEG * Math.cos(toRad(lat)));
 
-/**
- * Snap points to a metric grid and keep the first point per cell.
- * Within one cell, any two points differ by less than `cellMeters` on each axis,
- * so padding the kept point by `cellMeters` extra covers every dropped one.
- * Columns use the row's latitude, not each point's: with a per-point cosine, a 1 km
- * north-south shift moves the column by over 1 km, so one cell could span 2+ km east-west.
- */
-export function gridDedupe(points, cellMeters) {
-    const seen = new Map();
-    for (const p of points) {
-        const row = Math.round((p.lat * M_PER_DEG) / cellMeters);
-        const rowLat = (row * cellMeters) / M_PER_DEG;
-        const col = Math.round((p.lng * M_PER_DEG * Math.cos(toRad(rowLat))) / cellMeters);
-        const key = `${row}:${col}`;
-        if (!seen.has(key)) seen.set(key, p);
-    }
-    return [...seen.values()];
-}
-
 /** Box around a point, padded by `padMeters` on every side. */
 export function paddedBox(p, padMeters) {
     const dLat = padMeters / M_PER_DEG;
@@ -90,18 +71,17 @@ const ring = (b) => [
 
 /**
  * Build the one search area covering all properties.
- * Each property gets a box padded by `bufferMeters` (+ grid slack), overlapping boxes merge.
+ * Each property gets a box padded by `bufferMeters`, overlapping boxes merge.
  * Returns GeoJSON ready for the scraper's `customGeolocation`.
  */
-export function buildSearchArea(points, { bufferMeters = 3000, cellMeters = 1000 } = {}) {
+export function buildSearchArea(points, { bufferMeters = 3000 } = {}) {
     if (!points.length) throw new Error('No properties with coordinates to build a search area from.');
-    const representatives = gridDedupe(points, cellMeters);
-    const boxes = mergeBoxes(representatives.map((p) => paddedBox(p, bufferMeters + cellMeters)));
+    const boxes = mergeBoxes(points.map((p) => paddedBox(p, bufferMeters)));
     const geojson = boxes.length === 1
         ? { type: 'Polygon', coordinates: [ring(boxes[0])] }
         : { type: 'MultiPolygon', coordinates: boxes.map((b) => [ring(b)]) };
     const areaKm2 = boxes.reduce((sum, b) => sum + boxAreaKm2(b), 0);
-    return { geojson, boxes, areaKm2, representativeCount: representatives.length };
+    return { geojson, boxes, areaKm2 };
 }
 
 /**

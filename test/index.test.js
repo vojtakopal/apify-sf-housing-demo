@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 
+import { buildSnapshot, diffSnapshots, snapshotKey } from '../src/changes.js';
 import { buildSearchArea, dedupeStores, haversineMeters, starbucksIndex, toStore } from '../src/geo.js';
 import { detectColumns, parseCsv, toCsvUrl, toOutputRow, toProperties } from '../src/properties.js';
 import { buildScraperInput } from '../src/scraper.js';
@@ -56,15 +57,22 @@ test('rows without coordinates get an error and are kept', () => {
     assert.equal(out.lat, '', 'original columns are kept');
 });
 
-test('search area for the SF sheet reproduces the verified scraper polygon', () => {
+test('search area for the SF sheet is the properties\' bounding box padded by 3 km', () => {
     const { properties } = loadSf();
     const area = buildSearchArea(properties, { bufferMeters: 3000 });
-    const verified = JSON.parse(fixture('verified-scraper-input.json')).customGeolocation;
     assert.equal(area.geojson.type, 'Polygon');
-    area.geojson.coordinates[0].flat().forEach((v, i) => {
-        assert.ok(Math.abs(v - verified.coordinates[0].flat()[i]) < 1e-9, `coord ${i}: ${v}`);
-    });
-    assert.ok(area.areaKm2 > 265 && area.areaKm2 < 280, `area ${area.areaKm2}`);
+    const [box] = area.boxes;
+    const lats = properties.map((p) => p.lat);
+    const minLat = Math.min(...lats);
+    const maxLat = Math.max(...lats);
+    assert.ok(Math.abs((minLat - box.south) * 111320 - 3000) < 1e-6);
+    assert.ok(Math.abs((box.north - maxLat) * 111320 - 3000) < 1e-6);
+    // Every property keeps at least the full buffer on every side.
+    for (const p of properties) {
+        const m = 111320 * Math.cos((p.lat * Math.PI) / 180);
+        assert.ok((p.lng - box.west) * m >= 3000 - 1e-6 && (box.east - p.lng) * m >= 3000 - 1e-6, p.address);
+    }
+    assert.ok(area.areaKm2 > 150 && area.areaKm2 < 260, `area ${area.areaKm2}`);
 });
 
 test('far-apart cities become a MultiPolygon, and the buffer covers edge properties', () => {
@@ -75,30 +83,7 @@ test('far-apart cities become a MultiPolygon, and the buffer covers edge propert
     assert.equal(area.boxes.length, 2);
     // A store 3 km north of the property must be inside the search area.
     const box = area.boxes.find((b) => b.south < sf.lat && sf.lat < b.north);
-    assert.ok(box.north - sf.lat >= 3000 / 111320);
-});
-
-test('every property keeps the full buffer, including ones dropped by grid dedupe', () => {
-    // Regression: these two are 2.4 km apart and used to share a cell, leaving the
-    // dropped one only 1.8 km of buffer to the west.
-    const kept = { lat: 37.77864, lng: -122.45820 };
-    const dropped = { lat: 37.78714, lng: -122.48283 };
-    let worst = Infinity;
-    const check = (points) => {
-        const { boxes } = buildSearchArea(points, { bufferMeters: 3000 });
-        for (const p of points) {
-            const m = 111320 * Math.cos((p.lat * Math.PI) / 180);
-            const margin = Math.max(...boxes.map((b) => Math.min(
-                (p.lng - b.west) * m, (b.east - p.lng) * m, (p.lat - b.south) * 111320, (b.north - p.lat) * 111320)));
-            worst = Math.min(worst, margin);
-        }
-    };
-    check([kept, dropped]);
-    for (let i = 0; i < 2000; i++) {
-        const c = { lat: 37.7 + (i % 50) * 0.002, lng: -122.5 + Math.floor(i / 50) * 0.0025 };
-        check([c, { lat: c.lat + (((i * 7) % 13) - 6) * 0.0015, lng: c.lng + (((i * 11) % 17) - 8) * 0.0018 }]);
-    }
-    assert.ok(worst >= 3000, `worst margin ${worst} m`);
+    assert.ok(box.north - sf.lat >= 3000 / 111320 - 1e-12);
 });
 
 test('store filter: name must match, open only, coordinates required, dedupe by placeId', () => {
@@ -146,4 +131,44 @@ test('scraper input: max places omitted unless capped', () => {
     assert.equal(input.skipClosedPlaces, true);
     assert.equal(input.scrapePlaceDetailPage, false);
     assert.equal(buildScraperInput({ searchTerm: 'Starbucks', geojson, maxStoresToScrape: 100 }).maxCrawledPlacesPerSearch, 100);
+});
+
+test('changes: first run, no change, and store/property changes', () => {
+    const { properties } = loadSf();
+    const stores = sfStores();
+    const run = (storeList) => {
+        const output = properties.map((p) => toOutputRow(p, starbucksIndex(p, storeList)));
+        const d = output.map((o) => o.starbucksIndexMeters);
+        const summary = { properties: output.length, storesFound: storeList.length, medianMeters: 1, minMeters: Math.min(...d), maxMeters: Math.max(...d) };
+        return buildSnapshot({ output, stores: storeList, summary, finishedAt: 'x' });
+    };
+    const base = run(stores);
+    const first = diffSnapshots(null, base);
+    assert.equal(first.firstRun, true);
+    assert.match(first.message, /First run/);
+
+    const same = diffSnapshots(base, run(stores));
+    assert.equal(same.propertiesChanged.length, 0);
+    assert.match(same.message, /No changes since last run/);
+
+    // Leavenworth's nearest store (268 m) closes.
+    const leavenworth = properties.find((p) => p.id === '15063535');
+    const nearest = stores.reduce((a, b) => (haversineMeters(leavenworth, a) < haversineMeters(leavenworth, b) ? a : b));
+    const fewer = diffSnapshots(base, run(stores.filter((s) => s !== nearest)));
+    assert.deepEqual(fewer.storesClosed.map((s) => s.placeId), [nearest.placeId]);
+    assert.equal(fewer.storesOpened.length, 0);
+    const changed = fewer.propertiesChanged.find((p) => p.propertyId === '15063535');
+    assert.equal(changed.starbucksIndexMetersBefore, 268);
+    assert.ok(changed.starbucksIndexMetersAfter > 268);
+    assert.match(fewer.message, /Gone: Starbucks/);
+    assert.match(fewer.message, /39 stores \(-1\)/);
+
+    const back = diffSnapshots(run(stores.filter((s) => s !== nearest)), base);
+    assert.equal(back.storesOpened.length, 1);
+    assert.match(back.message, /New: Starbucks/);
+
+    const k = snapshotKey({ csvUrl: 'a', searchTerm: 'Starbucks', bufferMeters: 3000 });
+    assert.match(k, /^SNAPSHOT-[0-9a-f]{16}$/);
+    assert.equal(k, snapshotKey({ csvUrl: 'a', searchTerm: 'starbucks', bufferMeters: 3000 }));
+    assert.notEqual(k, snapshotKey({ csvUrl: 'b', searchTerm: 'Starbucks', bufferMeters: 3000 }));
 });

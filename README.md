@@ -1,4 +1,4 @@
-# Starbucks Index
+# Starbucks Index Live
 
 For every property in a Google Sheet, the Actor computes a **Starbucks index**: the straight-line distance in meters to the nearest open Starbucks, plus the number of stores within 500 m and 1 km.
 
@@ -35,14 +35,32 @@ The key-value store also holds:
 - `SUMMARY`: counts, `storesFound`, the scraper run ID, and the median, min and max distance.
 - `STORES`: every store used, after filtering and dedupe.
 - `SEARCH_AREA`: the GeoJSON sent to the scraper, plus its area in km².
+- `CHANGES`: what changed since the previous run of the same sheet. See [Change tracking](#change-tracking).
 
 ## How it works
 
 1. Load the sheet through its CSV export URL.
-2. Build one search area. Properties are snapped to a 1 km grid and the first one in each cell is kept. Each kept property gets a box padded by `bufferMeters` + 1 km, which covers any property dropped from its cell. Grid columns use each row's latitude, so a cell is never wider than 1 km east-west. Overlapping boxes merge into their bounding box. One city ends up as a `Polygon`, and far-apart cities as a `MultiPolygon`.
+2. Build one search area. Each property gets a box padded by `bufferMeters` (3 km by default). Overlapping boxes merge into their bounding box. One city ends up as a single `Polygon`. Far-apart cities, whose boxes don't overlap, end up as a `MultiPolygon` in the same `customGeolocation`.
 3. Run Google Maps Scraper once, with that area as `customGeolocation`, `searchMatching: "only_includes"`, `skipClosedPlaces: true`, and no detail pages, reviews or images. If the platform migrates the Actor mid-run, it reattaches to the same scraper run instead of starting and paying for a new one.
 4. Filter again on our side. The name must contain the search term, the place must not be permanently or temporarily closed, and it must have coordinates. Then dedupe by `placeId`.
 5. For each property, compute the haversine distance to every store.
+6. Compare with the previous run of the same sheet and save `CHANGES`.
+
+### Change tracking
+
+Every run saves a snapshot to the named key-value store `starbucks-index-live-state`, keyed by the sheet URL, search term and buffer. Named storage doesn't expire, so last week's snapshot is still there next week. The next run of the same setup compares against it and writes `CHANGES`:
+
+| Field | Meaning |
+|---|---|
+| `firstRun` | `true` when there was no snapshot yet |
+| `previousRunAt` | When the compared snapshot was taken |
+| `summary.before`, `summary.after` | Median, min and max distance, and the store count |
+| `storesOpened`, `storesClosed` | Stores that appeared or disappeared, by `placeId` |
+| `propertiesAdded`, `propertiesRemoved` | Property IDs that appeared or disappeared from the sheet |
+| `propertiesChanged` | Properties whose distance, nearest store or store counts changed, with before and after values |
+| `message` | One-paragraph summary, short enough for a push notification |
+
+If the scrape finds no stores at all, the snapshot isn't overwritten: that's almost surely a glitch, and it would make next week's diff report every store as reopened.
 
 ### Why the buffer
 
@@ -57,7 +75,7 @@ A property at the edge of the set can have its true nearest store outside the ar
 
 ## Example: San Francisco, 30 three-bedroom listings
 
-[Sheet](https://docs.google.com/spreadsheets/d/1MpK1pVsTo7HF19kNaNLFDpM1dhhMkdLncYvYSZkRR7o/edit?usp=sharing): the search area is about 273 km² and returns about 40 open stores.
+[Sheet](https://docs.google.com/spreadsheets/d/1MpK1pVsTo7HF19kNaNLFDpM1dhhMkdLncYvYSZkRR7o/edit?usp=sharing): the search area is about 212 km² and returns about 37 open stores.
 
 - Median distance: 863 m.
 - Closest: 2508 Leavenworth St, 268 m to 499 Bay St.
@@ -76,4 +94,4 @@ apify push                   # deploy
 node scripts/compare-results.js <datasetId>   # diff a run's dataset vs. expected
 ```
 
-`test/fixtures/` holds the SF sheet, the 40 stores from a verified Google Maps Scraper run (`2GnR0CbeMeMyY1MdT`), and that run's input. The tests check that `buildSearchArea` reproduces the run's polygon exactly.
+`test/fixtures/` holds the SF sheet and the 40 stores from a verified Google Maps Scraper run (`2GnR0CbeMeMyY1MdT`).

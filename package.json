@@ -1,5 +1,5 @@
 {
-    "name": "starbucks-index",
+    "name": "starbucks-index-live",
     "version": "0.1.0",
     "description": "Distance from every property in a Google Sheet to the nearest open Starbucks, via one Google Maps Scraper run.",
     "type": "module",
